@@ -44,7 +44,7 @@ else
     bin/stop
 fi
 
-
+echo ''
 printf "${ORANGE}3) Determining or creating mysql root password${NC}\n"
 ENVFILELOCATION="$BASE/env/db.env"
 echo "Looking in $ENVFILELOCATION"
@@ -94,17 +94,17 @@ if ! grep -qF '"replace": { "vertex/module-tax": "*" }' src/composer.json; then
 fi
 
 echo ''
-printf "${GREEN}6) Lets bring up the containers...${NC}\n"
+printf "${ORANGE}6) Lets bring up the containers...${NC}\n"
 docker-compose -f docker-compose.yml -p $PROJECT up -d 
 sleep 3 #Ensure containers are started...
 
 echo ''
-printf "${GREEN}7) Copying all files from host to container...${NC}\n"
+printf "${ORANGE}7) Copying all files from host to container...${NC}\n"
 rm -rf src/vendor #Clear for step below
 bin/copytocontainer --all
 
 echo ''
-printf "${GREEN}8) Making bin/magento executable...${NC}\n"
+printf "${ORANGE}8) Making bin/magento executable...${NC}\n"
 bin/clinotty chmod u+x bin/magento
 
 if hash composer 2>/dev/null; then
@@ -132,7 +132,7 @@ if [ -z "$PUBLIC_KEY" ] || [ -z "$PRIVATE_KEY" ]; then
 fi
 
 echo ''
-printf "${GREEN}9) Run composer...${NC}\n"
+printf "${ORANGE}9) Run composer...${NC}\n"
 if [ -n "$PUBLIC_KEY" ] && [ -n "$PRIVATE_KEY" ]; then
     bin/clinotty composer config http-basic.repo.magento.com $PUBLIC_KEY $PRIVATE_KEY
     PUBLIC_KEY=''
@@ -140,11 +140,11 @@ if [ -n "$PUBLIC_KEY" ] && [ -n "$PRIVATE_KEY" ]; then
 fi
 
 echo ''
-printf "${GREEN}10) Forcing reinstall of composer dependencies to ensure perms & reqs..${NC}\n"
+printf "${ORANGE}10) Forcing reinstall of composer dependencies to ensure perms & reqs..${NC}\n"
 bin/clinotty composer install
 
 echo ''
-printf "${GREEN}11) Installing magento via commandline..${NC}\n"
+printf "${ORANGE}11) Installing magento via commandline..${NC}\n"
 bin/clinotty bin/magento setup:install \
   --db-host=db \
   --db-name=magento \
@@ -162,57 +162,57 @@ bin/clinotty bin/magento setup:install \
   --use-rewrites=1
 
 echo ''
-printf "${GREEN}12) Turning on developer mode..${NC}\n"
+printf "${ORANGE}12) Turning on developer mode..${NC}\n"
 bin/clinotty bin/magento deploy:mode:set developer
 bin/clinotty bin/magento indexer:reindex
 
 echo ''
-printf "${GREEN}13) Forcing deploy of static content to speed up initial requests...${NC}\n"
+printf "${ORANGE}13) Forcing deploy of static content to speed up initial requests...${NC}\n"
 bin/clinotty bin/magento setup:static-content:deploy -f 
 
 echo ''
-printf "${GREEN}14) Enabling Redis for cache..${NC}\n"
+printf "${ORANGE}14) Enabling Redis for cache..${NC}\n"
 bin/clinotty bin/magento setup:config:set --no-interaction --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=0
 
 echo ''
-printf "${GREEN}15) Enabling Redis for Full Page Cache...${NC}\n"
+printf "${ORANGE}15) Enabling Redis for Full Page Cache...${NC}\n"
 bin/clinotty bin/magento setup:config:set --no-interaction  --page-cache=redis --page-cache-redis-server=redis --page-cache-redis-db=1 --page-cache-redis-compress-data=1
 
 echo ''
-printf "${GREEN}16) Enabling Redis for session...${NC}\n"
+printf "${ORANGE}16) Enabling Redis for session...${NC}\n"
 bin/clinotty bin/magento setup:config:set --no-interaction --session-save=redis --session-save-redis-host=redis --session-save-redis-log-level=4 --session-save-redis-db=2
 
 echo ''
-printf "${GREEN}17) Clearing the cache for good measure...${NC}\n"
+printf "${ORANGE}17) Clearing the cache for good measure...${NC}\n"
 bin/clinotty bin/magento cache:flush
 
 echo ''
-printf "${GREEN}18) Copying 'app' folder to host after install...${NC}\n"
+printf "${ORANGE}18) Copying 'app' folder to host after install...${NC}\n"
 bin/copyfromcontainer app
 
 echo ''
-printf "${GREEN}19) Copying 'vendor' folder to host after install...${NC}\n"
+printf "${ORANGE}19) Copying 'vendor' folder to host after install...${NC}\n"
 bin/copyfromcontainer vendor
 
 echo ''
-printf "${GREEN}20) Restarting containers with host bind mounts for dev...${NC}\n"
+printf "${ORANGE}20) Restarting containers with host bind mounts for dev...${NC}\n"
 bin/restart
 
 echo ''
-printf "${GREEN}21) Add your domain to /etc/hosts...${NC}\n"
+printf "${ORANGE}21) Add your domain to /etc/hosts...${NC}\n"
 
 read -p "Should I add an entry in hosts file? " -n 1 -r
 echo ''
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     echo "127.0.0.1 $DOMAIN" | sudo tee -a /etc/hosts
-    printf "${ORANGE}Don't forget from time to time to cleanup your hosts file as you could have duplicate entries.${NC}\n"
+    printf "${GREEN}Don't forget from time to time to cleanup your hosts file as you could have duplicate entries.${NC}\n"
 
 fi
 
 
 echo ''
-printf "${RED}Docker development environment setup complete.${NC}\n"
+printf "${GREEN}Docker development environment setup complete.${NC}\n"
 printf "${ORANGE}You may now access your Magento instance at https://${DOMAIN}/ ${NC}\n"
 printf "${ORANGE}Admin user: studio${NC}\n"
 printf "${ORANGE}Admin pass: password123${NC}\n"
