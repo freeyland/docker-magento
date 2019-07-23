@@ -13,8 +13,7 @@ git checkout origin/master
 rm -rf .git
 git init
 
-if [[ "$BYPASS" =~ ^([nN][oO]|[nN])+$ ]]
-then
+if [[ "$BYPASS" =~ ^(no|n)$ ]]
 bin/download $VERSION
 fi
 
