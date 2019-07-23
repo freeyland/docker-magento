@@ -13,6 +13,8 @@ git checkout origin/master
 rm -rf .git
 git init
 
+if [[ "$BYPASS" =~ ^([nN][oO]|[nN])+$ ]]
 bin/download $VERSION
+fi
 
 bin/setup $DOMAIN
