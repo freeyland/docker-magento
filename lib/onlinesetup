@@ -13,6 +13,6 @@ rm -rf .git
 git init
 
 
-#bin/download $VERSION
+bin/download $VERSION
 
 bin/setup $DOMAIN
