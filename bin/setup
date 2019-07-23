@@ -53,6 +53,7 @@ fi
 
 echo ''
 printf "${ORANGE}3) Determining or creating mysql root password${NC}\n"
+
 echo "Looking in $ENVFILELOCATION"
 if [ -f "$ENVFILELOCATION" ]; then
   printf "${GREEN}$ENVFILELOCATION exists${NC}\n"
