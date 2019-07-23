@@ -13,7 +13,8 @@ git checkout origin/master
 rm -rf .git
 git init
 
-if [ $BYPASS != "yes" ]; then
+if [ $BYPASS != "yes" ]; 
+then
 bin/download $VERSION
 fi
 
