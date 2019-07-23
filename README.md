@@ -1,17 +1,14 @@
 <h1 align="center">markshust/docker-magento</h1> 
 
 <div align="center">
-  <p>Mark Shust's Docker Configuration for Magento</p>
+  <p>Frederick's Docker Configuration for Magento</p>
   <img src="https://img.shields.io/badge/magento-2.X-brightgreen.svg?logo=magento&longCache=true&style=flat-square" alt="Supported Magento Versions" />
-  <a href="https://hub.docker.com/r/markoshust/magento-nginx/" target="_blank"><img src="https://img.shields.io/docker/pulls/markoshust/magento-nginx.svg?label=nginx%20docker%20pulls" alt="Docker Hub Pulls - Nginx" /></a>
-  <a href="https://hub.docker.com/r/markoshust/magento-php/" target="_blank"><img src="https://img.shields.io/docker/pulls/markoshust/magento-php.svg?label=php%20docker%20pulls" alt="Docker Hub Pulls - PHP" /></a>
   <a href="https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity" target="_blank"><img src="https://img.shields.io/badge/maintained%3F-yes-brightgreen.svg?style=flat-square" alt="Maintained - Yes" /></a>
   <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
 </div>
 
 ## Table of contents
 
-- [Free Course](#free-course)
 - [Docker Hub](#docker-hub)
 - [Usage](#usage)
 - [Prerequisites](#prerequisites)
@@ -20,15 +17,6 @@
 - [Misc Info](#misc-info)
 - [Credits](#credits)
 - [License](#license)
-
-## Free Course
-
-I created a free screencast course which details the basic usage of this project:
-
-<a href="https://m.academy/p/setup-magento-2-development-environment-docker" target="_blank">
-<img src="https://raw.githubusercontent.com/markshust/docker-magento/master/docs/course.png" alt="Setup a Magento 2 Development Environment with Docker"><br />
-Setup a Magento 2 Development Environment with Docker
-</a>
 
 ## Docker Hub
 
@@ -74,15 +62,11 @@ Folders:
 - `images`: Docker images for nginx and php
 - `compose`: sample setups with Docker Compose
 
-> The Magento 1 version of this development environment has been deprecated and is no longer supported. PHP 5 was used as it's base, and that version has reached end-of-life. If you still wish to use this setup, please reference [compose/magento-1 on tag 20.1.1](https://github.com/markshust/docker-magento/tree/20.1.1/compose/magento-1), but please be aware these images are no longer maintained.
-
 ## Prerequisites
 
 This setup assumes you are running Docker on a computer with at least 4GB of allocated RAM, a dual-core, and an SSD hard drive. [Download & Install Docker Desktop](https://www.docker.com/products/docker-desktop).
 
 This configuration has been tested on Mac & Linux.
-
-> **Windows Configurations**: The Windows configuration does not currently work and is in need of a contributor to get functional once again. Please see [issue 100](https://github.com/markshust/docker-magento/issues/100) to contribute.
 
 ## Quick Setup
 
@@ -93,14 +77,19 @@ This configuration has been tested on Mac & Linux.
 Run this automated one-liner from the directory you want to install your project to:
 
 ```bash
-curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup | bash -s -- magento2.test 2.3.2
+curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/onlinesetup | bash -s -- magento2.test 2.3.2
 ```
 
-The `magento2.test` above defines the hostname to use, and the `2.3.2` defines the Magento version to install. Note that since we need a write to `/etc/hosts` for DNS resolution, you will be prompted for your system password during setup.
+The `2.3.2` defines the Magento version to install. Note that since we need a write to `/etc/hosts` for DNS resolution, you will be prompted for your system password during setup. You will also be prompted for a domain name.
 
-After the one-liner above completes running, you should be able to access your site at `https://magento2.test`.
+After the one-liner above completes running, you should be able to access your site at the provided domain e.g. `https://magento2.test`.
 
 ### Manual Setup
+
+Clone the github repo:
+```
+
+```
 
 Same result as the one-liner above. Just replace `magento2.test` references with the hostname that you wish to use.
 
