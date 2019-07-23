@@ -21,7 +21,7 @@ rep=$(curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null)
 status=$?
 
 if [ "$status" == "7" ]; then
-    printf "${RED}0) DOCKER is not running!${NC}\n"
+    printf "${RED}DOCKER is not running! Start docker!${NC}\n"
     exit 1
 fi
 
@@ -79,7 +79,7 @@ echo "For example, type 'my-website.local':"
 echo ''
 echo "**YOU NEED TO USE THE FORMAT my-website.local, WITH A DOT!**"
 echo ''
-read DOMAIN
+read -p "Enter Domain Name: "  DOMAIN
 #echo "You entered $DOMAIN"
 
 #cp /dev/null $ENVFILELOCATION
