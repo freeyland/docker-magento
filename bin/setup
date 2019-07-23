@@ -1,0 +1,217 @@
+#!/bin/bash
+
+clear
+
+BASE="$(pwd)"
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+NC='\033[0m' # No Color
+
+
+printf "${ORANGE}"
+cat ./bin/my-ascii-art.txt
+printf "${NC}\n"
+
+
+printf "${ORANGE}0) First make sure all containers are stopped${NC}\n"
+echo ''
+read -p "Should I force remove ALL containers?" -n 1 -r
+echo ''
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    if [ ! "$(docker ps -q -f name=<name>)" ]; then
+        bin/removeall
+    fi
+else
+    bin/stop
+fi
+
+
+printf "${ORANGE}1) Determining or creating mysql root password${NC}\n"
+ENVFILELOCATION="$BASE/env/db.env"
+echo "Looking in $ENVFILELOCATION"
+if [ -f "$ENVFILELOCATION" ]; then
+  printf "${GREEN}$ENVFILELOCATION exists${NC}\n"
+  echo "Looking for variable MYSQL_ROOT_PASSWORD in $ENVFILELOCATION ${NC}\n"
+  source "$ENVFILELOCATION"
+  if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
+    printf "${RED}MYSQL_ROOT_PASSWORD is not set in $ENVFILELOCATION ${NC}\n"
+    exit 1
+  else
+   printf "${GREEN}MYSQL_ROOT_PASSWORD is set; not showing here for security reasons${NC}\n"
+  fi
+else
+  printf "${RED}$ENVFILELOCATION does not exist${NC}\n"
+fi
+
+echo ''
+printf "${ORANGE}2) Checking if docker-compose is available${NC}\n"
+if [ -f ./docker-compose.yml ]; then
+  echo 'Docker Compose file exists, moving on.'
+else
+  >&2 echo './docker-compose.yml file does not exist.'
+ exit 1
+fi
+
+echo ''
+printf "${ORANGE}2) Determing local domain${NC}\n"
+
+while [ -z "$DOMAIN" ]; do
+echo "Enter a domain"
+echo "We need a domain to access your local development environment. This"
+echo "is because there is only one secure (443) port on your computer, and"
+echo "you might have several applications running. They are distinguished"
+echo "by domain name."
+echo ''
+echo "For example, type 'my-website.local':"
+echo ''
+echo "**YOU NEED TO USE THE FORMAT my-website.local, WITH A DOT!**"
+echo ''
+read DOMAIN
+done
+#echo "You entered $DOMAIN"
+
+#cp /dev/null $ENVFILELOCATION
+PROJECT="${DOMAIN//./}"
+LINE="PROJECT=$PROJECT"
+echo "We entered $LINE in .env"
+echo "$LINE" > ".env"
+LINE="VIRTUAL_HOST=$DOMAIN"
+echo "$LINE" >> ".env"
+echo "We entered $LINE in .env"
+source "$ENVFILELOCATION"
+
+
+# get rid of vertex/module-tax, not required and causes checksum errors on composer install
+# https://github.com/markshust/docker-magento/issues/135
+# prevent double or more insertion
+if ! grep -qF '"replace": { "vertex/module-tax": "*" }' src/composer.json; then
+    sed -e 's/"conflict": {/"replace": { "vertex\/module-tax": "*" },\ "conflict": {/' src/composer.json > composer.json && mv composer.json src/composer.json
+fi
+
+echo ''
+printf "${GREEN}3) Lets bring up the containers...${NC}\n"
+docker-compose -f docker-compose.yml -p $PROJECT up -d 
+sleep 3 #Ensure containers are started...
+
+echo ''
+printf "${GREEN}4) Copying all files from host to container...${NC}\n"
+rm -rf src/vendor #Clear for step below
+bin/copytocontainer --all
+
+echo ''
+printf "${GREEN}5) Making bin/magento executable...${NC}\n"
+bin/clinotty chmod u+x bin/magento
+
+if hash composer 2>/dev/null; then
+    PUBLIC_KEY="$(composer config -gl | grep '\[http-basic.repo.magento.com.username\]' | cut -c40-)"
+    PRIVATE_KEY="$(composer config -gl | grep '\[http-basic.repo.magento.com.password\]' | cut -c40-)"
+fi
+
+if [ -z "$PUBLIC_KEY" ] || [ -z "$PRIVATE_KEY" ]; then
+    exec < /dev/tty
+    echo
+    echo
+    echo "    Authentication required (repo.magento.com, public_key and private_key):"
+    read -p "        Username: " PUBLIC_KEY
+    read -p "        Password: " PRIVATE_KEY
+    echo
+    if [ -n "$PUBLIC_KEY" ] && [ -n "$PRIVATE_KEY" ] && hash composer 2>/dev/null; then
+        read -p "    Add authentication information to host composer config? y/n: " ADD_AUTH
+        echo
+        if [[ $ADD_AUTH =~ ^[Yy]$ ]]; then
+            composer global config http-basic.repo.magento.com $PUBLIC_KEY $PRIVATE_KEY
+        fi
+        ADD_AUTH=''
+    fi
+    exec <&-
+fi
+
+echo ''
+printf "${GREEN}6) Run composer...${NC}\n"
+if [ -n "$PUBLIC_KEY" ] && [ -n "$PRIVATE_KEY" ]; then
+    bin/clinotty composer config http-basic.repo.magento.com $PUBLIC_KEY $PRIVATE_KEY
+    PUBLIC_KEY=''
+    PRIVATE_KEY=''
+fi
+
+echo ''
+printf "${GREEN}7) Forcing reinstall of composer dependencies to ensure perms & reqs..${NC}\n"
+bin/clinotty composer install
+
+echo ''
+printf "${GREEN}8) Installing magento via commandline..${NC}\n"
+bin/clinotty bin/magento setup:install \
+  --db-host=db \
+  --db-name=magento \
+  --db-user=magento \
+  --db-password=magento \
+  --base-url=https://fred.test/ \
+  --admin-firstname=John \
+  --admin-lastname=Smith \
+  --admin-email=test@studioemma.be \
+  --admin-user=studio \
+  --admin-password=password123 \
+  --language=nl_BE \
+  --currency=EUR \
+  --timezone=Europe/Brussels \
+  --use-rewrites=1
+
+echo ''
+printf "${GREEN}9) Turning on developer mode..${NC}\n"
+bin/clinotty bin/magento deploy:mode:set developer
+bin/clinotty bin/magento indexer:reindex
+
+echo ''
+printf "${GREEN}10) Forcing deploy of static content to speed up initial requests...${NC}\n"
+bin/clinotty bin/magento setup:static-content:deploy -f 
+
+echo ''
+printf "${GREEN}11) Enabling Redis for cache..${NC}\n"
+bin/clinotty bin/magento setup:config:set --no-interaction --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=0
+
+echo ''
+printf "${GREEN}12) Enabling Redis for Full Page Cache...${NC}\n"
+bin/clinotty bin/magento setup:config:set --no-interaction  --page-cache=redis --page-cache-redis-server=redis --page-cache-redis-db=1 --page-cache-redis-compress-data=1
+
+echo ''
+printf "${GREEN}13) Enabling Redis for session...${NC}\n"
+bin/clinotty bin/magento setup:config:set --no-interaction --session-save=redis --session-save-redis-host=redis --session-save-redis-log-level=4 --session-save-redis-db=2
+
+echo ''
+printf "${GREEN}14) Clearing the cache for good measure...${NC}\n"
+bin/clinotty bin/magento cache:flush
+
+echo ''
+printf "${GREEN}15) Copying 'app' folder to host after install...${NC}\n"
+bin/copyfromcontainer app
+
+echo ''
+printf "${GREEN}16) Copying 'vendor' folder to host after install...${NC}\n"
+bin/copyfromcontainer vendor
+
+echo ''
+printf "${GREEN}17) Restarting containers with host bind mounts for dev...${NC}\n"
+bin/restart
+
+echo ''
+printf "${GREEN}18) Add your domain to /etc/hosts...${NC}\n"
+
+read -p "Should I add an entry in hosts file? " -n 1 -r
+echo ''
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    echo "127.0.0.1 $DOMAIN" | sudo tee -a /etc/hosts
+    printf "${ORANGE}Don't forget from time to time to cleanup your hosts file as you could have duplicate entries.${NC}\n"
+
+fi
+
+
+echo ''
+printf "${RED}Docker development environment setup complete.${NC}\n"
+printf "${ORANGE}You may now access your Magento instance at https://${DOMAIN}/ ${NC}\n"
+printf "${ORANGE}Admin user: studio${NC}\n"
+printf "${ORANGE}Admin pass: password123${NC}\n"
+
