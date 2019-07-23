@@ -22,7 +22,7 @@ rep=$(curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null)
 status=$?
 
 
-ENVFILELOCATION="$BASE/env/db.env"
+ENVFILELOCATION="$BASE/.env"
 
 echo "" >> $ENVFILELOCATION
 echo "MYSQL_PORT=$MYSQLPORT" >> $ENVFILELOCATION
