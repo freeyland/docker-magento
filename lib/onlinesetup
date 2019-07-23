@@ -1,7 +1,16 @@
 #!/bin/bash
 VERSION=${2:-2.3.0}
 
-git clone https://github.com/freeyland/docker-magento.git .
+git clone https://github.com/freeyland/docker-magento.git ./
+
+#!/bin/bash
+git init -qqq
+git remote add origin https://github.com/freeyland/docker-magento
+git fetch origin -qqq
+git checkout origin/master
+rm -rf .git
+git init
+
 
 bin/download $VERSION
 
