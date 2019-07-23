@@ -49,7 +49,8 @@ echo ''
 printf "${ORANGE}3) Determining or creating mysql root password${NC}\n"
 ENVFILELOCATION="$BASE/env/db.env"
 
-echo "MYSQL_PORT=$MYSQLPORT" >> ".env"
+echo "" >> $ENVFILELOCATION
+echo "MYSQL_PORT=$MYSQLPORT" >> $ENVFILELOCATION
 
 echo "Looking in $ENVFILELOCATION"
 if [ -f "$ENVFILELOCATION" ]; then
