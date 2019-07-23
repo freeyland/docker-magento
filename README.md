@@ -1,4 +1,4 @@
-<h1 align="center">markshust/docker-magento</h1> 
+<h1 align="center">freeyland/docker-magento</h1> 
 
 <div align="center">
   <p>Frederick's Docker Configuration for Magento</p>
@@ -88,16 +88,17 @@ After the one-liner above completes running, you should be able to access your s
 
 Clone the github repo:
 ```
-
+git clone https://github.com/freeyland/docker-magento.git projectname
+cd projectname
+bin/setup
 ```
 
-Same result as the one-liner above. Just replace `magento2.test` references with the hostname that you wish to use.
 
 #### New Projects
 
 ```bash
 # Download the Docker Compose template:
-curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash -s -- magento-2
+curl -s https://raw.githubusercontent.com/free/docker-magento/master/lib/template | bash -s -- magento-2
 
 # Download the version of Magento you want to use with:
 bin/download 2.3.2
