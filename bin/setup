@@ -3,6 +3,7 @@
 clear
 
 DOMAIN=${1:-magento2.test}
+MYSQLPORT=${2:-3306}
 
 BASE="$(pwd)"
 
@@ -47,6 +48,9 @@ fi
 echo ''
 printf "${ORANGE}3) Determining or creating mysql root password${NC}\n"
 ENVFILELOCATION="$BASE/env/db.env"
+
+echo "MYSQL_PORT=$MYSQLPORT" >> ".env"
+
 echo "Looking in $ENVFILELOCATION"
 if [ -f "$ENVFILELOCATION" ]; then
   printf "${GREEN}$ENVFILELOCATION exists${NC}\n"
@@ -201,10 +205,11 @@ bin/restart
 echo ''
 printf "${ORANGE}21) Add your domain to /etc/hosts...${NC}\n"
 echo "127.0.0.1 $DOMAIN" | sudo tee -a /etc/hosts
-printf "${GREEN}Don't forget from time to time to cleanup your hosts file as you could have duplicate entries.${NC}\n"
+printf "${GREEN}"
 echo "-----------------------------------------"
 cat /etc/hosts
 echo "-----------------------------------------"
+printf "${NC}\n"
 
 
 echo ''
@@ -212,4 +217,5 @@ printf "${GREEN}Docker development environment setup complete.${NC}\n"
 printf "${ORANGE}You may now access your Magento instance at https://${DOMAIN}/ ${NC}\n"
 printf "${ORANGE}Admin user: studio${NC}\n"
 printf "${ORANGE}Admin pass: password123${NC}\n"
+printf "${ORANGE}Mysql root pass: $MYSQL_ROOT_PASSWORD ${NC}\n"
 

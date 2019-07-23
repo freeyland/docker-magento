@@ -1,7 +1,8 @@
 #!/bin/bash
 DOMAIN=${1:-magento2.test}
 VERSION=${2:-2.3.0}
-BYPASS=${3:-no}
+MYSQLPORT=${3:-3306}
+BYPASS=${4:-no}
 
 git clone https://github.com/freeyland/docker-magento.git ./
 
@@ -18,4 +19,4 @@ then
 bin/download $VERSION
 fi
 
-bin/setup $DOMAIN
+bin/setup $DOMAIN $MYSQLPORT
