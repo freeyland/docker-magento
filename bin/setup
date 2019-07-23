@@ -17,6 +17,14 @@ cat ./bin/my-ascii-art.txt
 printf "${NC}\n"
 
 
+rep=$(curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null)
+status=$?
+
+if [ "$status" == "7" ]; then
+    printf "${RED}0) DOCKER is not running!${NC}\n"
+    exit 1
+fi
+
 printf "${ORANGE}0) First make sure all containers are stopped${NC}\n"
 echo ''
 read -p "Should I force remove ALL containers?" -n 1 -r
