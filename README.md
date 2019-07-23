@@ -135,8 +135,6 @@ bin/restart
 open https://magento2.test
 ```
 
-> For more details on how everything works, see the extended [setup readme](https://github.com/freeyland/docker-magento/blob/master/SETUP.md).
-
 ## Custom CLI Commands
 
 - `bin/bash`: Drop into the bash prompt of your Docker container. The `phpfpm` container should be mainly used to access the filesystem within Docker.
@@ -261,7 +259,7 @@ Running Docker on Linux should be pretty straight-forward. Note that you need to
 
 ### Mark Shust
 
-He is a <a href="https://u.magento.com/certification/directory/dev/883/" target="_blank">Certified Magento Developer & Architect</a> and <a href="http://www.zend.com/en/yellow-pages/ZEND014633" target="_blank">Zend Certified Engineer</a>, and available for consulting & development of your next project 🤓. You can read technical articles on his blog at <a href="https://markshust.com" target="_blank">markshust.com</a> or by contacting him directly at <a href="mailto:mark@shust.com">mark@shust.com</a>. Hes is the original creator of this project but it has been adapted to our needs.
+He is a <a href="https://u.magento.com/certification/directory/dev/883/" target="_blank">Certified Magento Developer & Architect</a> and <a href="http://www.zend.com/en/yellow-pages/ZEND014633" target="_blank">Zend Certified Engineer</a>. You can read technical articles on his blog at <a href="https://markshust.com" target="_blank">markshust.com</a> or by contacting him directly at <a href="mailto:mark@shust.com">mark@shust.com</a>. Hes is the original creator of this project but it has been adapted to our needs.
 
 ### Frederick Eyland
 
