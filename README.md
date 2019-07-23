@@ -24,34 +24,34 @@ View Dockerfiles:
 
 - [markoshust/magento-nginx (Docker Hub)](https://hub.docker.com/r/markoshust/magento-nginx/)
   - 1.13
-      - [`latest`, `1.13`, `1.13-7`](https://github.com/markshust/docker-magento/tree/master/images/nginx/1.13)
-      - [`1.13-6`](https://github.com/markshust/docker-magento/tree/20.1.1/images/nginx/1.13)
-      - [`1.13-5`](https://github.com/markshust/docker-magento/tree/18.1.1/images/nginx/1.13)
-      - [`1.13-4`](https://github.com/markshust/docker-magento/tree/18.0.1/images/nginx/1.13)
-      - [`1.13-3`](https://github.com/markshust/docker-magento/tree/15.0.1/images/nginx/1.13)
-      - [`1.13-2`](https://github.com/markshust/docker-magento/tree/12.0.0/images/nginx/1.13)
-      - [`1.13-1`](https://github.com/markshust/docker-magento/tree/11.1.5/images/nginx/1.13)
-      - [`1.13-0`](https://github.com/markshust/docker-magento/tree/11.0.0/images/nginx/1.13)
+      - [`latest`, `1.13`, `1.13-7`]
+      - [`1.13-6`]
+      - [`1.13-5`]
+      - [`1.13-4`]
+      - [`1.13-3`]
+      - [`1.13-2`]
+      - [`1.13-1`]
+      - [`1.13-0`]
 - [markoshust/magento-php (Docker Hub)](https://hub.docker.com/r/markoshust/magento-php/)
   - 7.2
-      - [`latest`, `7.2-fpm`, `7.2-fpm-3`](https://github.com/markshust/docker-magento/tree/master/images/php/7.2)
-      - [`7.2-fpm-2`](https://github.com/markshust/docker-magento/tree/23.2.1/images/php/7.2)
-      - [`7.2-fpm-1`](https://github.com/markshust/docker-magento/tree/23.1.1/images/php/7.2)
-      - [`7.2-fpm-0`](https://github.com/markshust/docker-magento/tree/23.0.0/images/php/7.2)
+      - [`latest`, `7.2-fpm`, `7.2-fpm-3`]
+      - [`7.2-fpm-2`]
+      - [`7.2-fpm-1`]
+      - [`7.2-fpm-0`]
   - 7.1
-      - [`7.1-fpm`, `7.1-fpm-12`](https://github.com/markshust/docker-magento/tree/master/images/php/7.1)
-      - [`7.1-fpm-11`](https://github.com/markshust/docker-magento/tree/23.2.1/images/php/7.1)
-      - [`7.1-fpm-10`](https://github.com/markshust/docker-magento/tree/23.1.1/images/php/7.1)
-      - [`7.1-fpm-9`](https://github.com/markshust/docker-magento/tree/23.0.0/images/php/7.1)
-      - [`7.1-fpm-8`](https://github.com/markshust/docker-magento/tree/17.0.1/images/php/7.1)
-      - [`7.1-fpm-7`](https://github.com/markshust/docker-magento/tree/16.2.0/images/php/7.1)
-      - [`7.1-fpm-6`](https://github.com/markshust/docker-magento/tree/16.0.0/images/php/7.1)
-      - [`7.1-fpm-5`](https://github.com/markshust/docker-magento/tree/15.0.1/images/php/7.1)
-      - [`7.1-fpm-4`](https://github.com/markshust/docker-magento/tree/15.0.0/images/php/7.1)
-      - [`7.1-fpm-3`](https://github.com/markshust/docker-magento/tree/14.0.1/images/php/7.1)
-      - [`7.1-fpm-2`](https://github.com/markshust/docker-magento/tree/13.0.0/images/php/7.1)
-      - [`7.1-fpm-1`](https://github.com/markshust/docker-magento/tree/11.1.5/images/php/7.1)
-      - [`7.1-fpm-0`](https://github.com/markshust/docker-magento/tree/11.0.0/images/php/7.1)
+      - [`7.1-fpm`, `7.1-fpm-12`]
+      - [`7.1-fpm-11`]
+      - [`7.1-fpm-10`]
+      - [`7.1-fpm-9`]
+      - [`7.1-fpm-8`]
+      - [`7.1-fpm-7`]
+      - [`7.1-fpm-6`]
+      - [`7.1-fpm-5`]
+      - [`7.1-fpm-4`]
+      - [`7.1-fpm-3`]
+      - [`7.1-fpm-2`]
+      - [`7.1-fpm-1`]
+      - [`7.1-fpm-0`]
 
 ## Usage
 
