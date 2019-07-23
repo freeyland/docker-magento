@@ -246,7 +246,7 @@ For more information about Redis usage with Magento, <a href="https://devdocs.ma
 
 Install and enable the PHP Debug extension from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug).
 
-Otherwise, this project now automatically sets up Xdebug support with VS Code. If you wish to set this up manually, please see the [`.vscode/launch.json`](https://github.com/markshust/docker-magento/blame/master/compose/magento-2/.vscode/launch.json) file.
+Otherwise, this project now automatically sets up Xdebug support with VS Code. If you wish to set this up manually, please see the [`.vscode/launch.json`](https://github.com/freeyland/docker-magento/blame/master/.vscode/launch.json) file.
 
 ### Xdebug & PHPStorm
 
@@ -289,7 +289,7 @@ Running Docker on Linux should be pretty straight-forward. Note that you need to
 
 ### Mark Shust
 
-He is a <a href="https://u.magento.com/certification/directory/dev/883/" target="_blank">Certified Magento Developer & Architect</a> and <a href="http://www.zend.com/en/yellow-pages/ZEND014633" target="_blank">Zend Certified Engineer</a>, and available for consulting & development of your next project 🤓. You can read technical articles on his blog at <a href="https://markshust.com" target="_blank">markshust.com</a> or by contacting him directly at <a href="mailto:mark@shust.com">mark@shust.com</a>.
+He is a <a href="https://u.magento.com/certification/directory/dev/883/" target="_blank">Certified Magento Developer & Architect</a> and <a href="http://www.zend.com/en/yellow-pages/ZEND014633" target="_blank">Zend Certified Engineer</a>, and available for consulting & development of your next project 🤓. You can read technical articles on his blog at <a href="https://markshust.com" target="_blank">markshust.com</a> or by contacting him directly at <a href="mailto:mark@shust.com">mark@shust.com</a>. Hes is the original creator of this project but it has been adapted to our needs.
 
 ### Frederick Eyland
 
