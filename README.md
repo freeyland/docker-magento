@@ -59,8 +59,11 @@ This configuration is intended to be used as a Docker-based development environm
 
 Folders:
 
-- `images`: Docker images for nginx and php
-- `compose`: sample setups with Docker Compose
+- `images`: Docker images for nginx and php (not needed as they are available on DOcker Hub)
+- `bin`: wrappers around well known docker/docker-compose commands and dome other usefull commands
+- `env`: environment files for e.g. mysql credentials
+- `src`: will contain your magento code
+
 
 ## Prerequisites
 
@@ -90,7 +93,6 @@ Clone the github repo:
 ```
 git clone https://github.com/freeyland/docker-magento.git projectname
 cd projectname
-bin/setup
 ```
 
 
@@ -98,7 +100,7 @@ bin/setup
 
 ```bash
 # Download the Docker Compose template:
-curl -s https://raw.githubusercontent.com/free/docker-magento/master/lib/template | bash -s -- magento-2
+curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template | bash -s -- magento-2
 
 # Download the version of Magento you want to use with:
 bin/download 2.3.2
@@ -115,20 +117,18 @@ bin/download 2.3.2
 # rm -rf src
 # composer create-project --repository=https://repo.magento.com/ --ignore-platform-reqs magento/project-enterprise-edition=2.3.2 src
 
-# Create a DNS host entry for the site:
-echo "127.0.0.1 magento2.test" | sudo tee -a /etc/hosts
 
 # Run the setup installer for Magento:
-bin/setup magento2.test
+bin/setup
 
-open https://magento2.test
+open your browser and type the url
 ```
 
 #### Existing Projects
 
 ```bash
 # Download the Docker Compose template:
-curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash -s -- magento-2
+curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template | bash -s -- magento-2
 
 # Remove existing src directory:
 rm -rf src
@@ -163,7 +163,7 @@ bin/restart
 open https://magento2.test
 ```
 
-> For more details on how everything works, see the extended [setup readme](https://github.com/markshust/docker-magento/blob/master/SETUP.md).
+> For more details on how everything works, see the extended [setup readme](https://github.com/freeyland/docker-magento/blob/master/SETUP.md).
 
 ## Custom CLI Commands
 
@@ -188,7 +188,7 @@ open https://magento2.test
 - `bin/root`: Run any CLI command as root without going into the bash prompt. Ex `bin/root apt-get install nano`
 - `bin/rootnotty`: Run any CLI command as root with no TTY. Ex `bin/rootnotty chown -R app:app /var/www/html`
 - `bin/setup`: Run the Magento setup process to install Magento from the source code, with optional domain name. Defaults to `magento2.test`. Ex. `bin/setup magento2.test`
-- `bin/start`: Start all containers, good practice to use this instead of `docker-compose up -d`, as it may contain additional helpers.
+- `bin/start`: Start all containers, good practice to use this instead of `docker-compose up -d`, as it may contain additional helpers (like project name).
 - `bin/status`: Check the container status.
 - `bin/stop`: Stop all containers.
 - `bin/xdebug`: Disable or enable Xdebug. Accepts params `disable` (default) or `enable`. Ex. `bin/xdebug enable`
@@ -225,7 +225,7 @@ View emails sent locally through Mailhog by visiting [http://{yourdomain}:8025](
 
 Redis is now the default cache and session storage engine, and is automatically configured & enabled when running `bin/setup` on new installs.
 
-Use the following lines to enable Redis on existing installs:
+Use the following lines to enable Redis on existing installs: (note that when you install through bin/setup, this is not required)
 
 **Enable for Cache:**
 
@@ -289,11 +289,15 @@ Running Docker on Linux should be pretty straight-forward. Note that you need to
 
 ### Mark Shust
 
-I'm a <a href="https://u.magento.com/certification/directory/dev/883/" target="_blank">Certified Magento Developer & Architect</a> and <a href="http://www.zend.com/en/yellow-pages/ZEND014633" target="_blank">Zend Certified Engineer</a>, and available for consulting & development of your next project 🤓. You can read technical articles on my blog at <a href="https://markshust.com" target="_blank">markshust.com</a> or contact me directly at <a href="mailto:mark@shust.com">mark@shust.com</a>.
+He is a <a href="https://u.magento.com/certification/directory/dev/883/" target="_blank">Certified Magento Developer & Architect</a> and <a href="http://www.zend.com/en/yellow-pages/ZEND014633" target="_blank">Zend Certified Engineer</a>, and available for consulting & development of your next project 🤓. You can read technical articles on his blog at <a href="https://markshust.com" target="_blank">markshust.com</a> or by contacting him directly at <a href="mailto:mark@shust.com">mark@shust.com</a>.
 
-### Nexcess
+### Frederick Eyland
 
-A special thanks goes out to <a href="https://www.nexcess.net/" target="_blank">Nexcess</a> for hosting <a href="http://pubfiles.nexcess.net/magento/ce-packages/" target="_blank">public archives of every version of Magento</a> 💙. I've used their Magento hosting services in the past also (both <a href="https://www.nexcess.net/magento/hosting/" target="_blank">shared</a> and <a href="https://www.nexcess.net/magento/enterprise-hosting/" target="_blank">enteprise</a> offerings) and they're great, ...highly recommended!
+The creator of this project
+
+### Studio Emma
+
+A special thanks goes out to <a href="https://www.studioemma.com/" target="_blank">Stuidoemma</a> to give me the time to create this project
 
 ## License
 
