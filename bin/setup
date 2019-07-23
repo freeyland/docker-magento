@@ -20,12 +20,18 @@ printf "${NC}\n"
 rep=$(curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null)
 status=$?
 
+
+printf "${ORANGE}1) First make sure that docker is running${NC}\n"
+echo ''
 if [ "$status" == "7" ]; then
     printf "${RED}DOCKER is not running! Start docker for desktop${NC}\n"
     exit 1
+else
+echo 'Docker is running'
 fi
 
-printf "${ORANGE}0) First make sure all containers are stopped${NC}\n"
+echo ''
+printf "${ORANGE}2) First make sure all containers are stopped${NC}\n"
 echo ''
 read -p "Should I force remove ALL containers?" -n 1 -r
 echo ''
@@ -39,7 +45,7 @@ else
 fi
 
 
-printf "${ORANGE}1) Determining or creating mysql root password${NC}\n"
+printf "${ORANGE}3) Determining or creating mysql root password${NC}\n"
 ENVFILELOCATION="$BASE/env/db.env"
 echo "Looking in $ENVFILELOCATION"
 if [ -f "$ENVFILELOCATION" ]; then
@@ -57,7 +63,7 @@ else
 fi
 
 echo ''
-printf "${ORANGE}2) Checking if docker-compose is available${NC}\n"
+printf "${ORANGE}4) Checking if docker-compose is available${NC}\n"
 if [ -f ./docker-compose.yml ]; then
   echo 'Docker Compose file exists, moving on.'
 else
@@ -66,7 +72,7 @@ else
 fi
 
 echo ''
-printf "${ORANGE}2) Determing local domain${NC}\n"
+printf "${ORANGE}5) Determing local domain${NC}\n"
 echo "You entered $DOMAIN"
 
 #cp /dev/null $ENVFILELOCATION
@@ -88,17 +94,17 @@ if ! grep -qF '"replace": { "vertex/module-tax": "*" }' src/composer.json; then
 fi
 
 echo ''
-printf "${GREEN}3) Lets bring up the containers...${NC}\n"
+printf "${GREEN}6) Lets bring up the containers...${NC}\n"
 docker-compose -f docker-compose.yml -p $PROJECT up -d 
 sleep 3 #Ensure containers are started...
 
 echo ''
-printf "${GREEN}4) Copying all files from host to container...${NC}\n"
+printf "${GREEN}7) Copying all files from host to container...${NC}\n"
 rm -rf src/vendor #Clear for step below
 bin/copytocontainer --all
 
 echo ''
-printf "${GREEN}5) Making bin/magento executable...${NC}\n"
+printf "${GREEN}8) Making bin/magento executable...${NC}\n"
 bin/clinotty chmod u+x bin/magento
 
 if hash composer 2>/dev/null; then
@@ -126,7 +132,7 @@ if [ -z "$PUBLIC_KEY" ] || [ -z "$PRIVATE_KEY" ]; then
 fi
 
 echo ''
-printf "${GREEN}6) Run composer...${NC}\n"
+printf "${GREEN}9) Run composer...${NC}\n"
 if [ -n "$PUBLIC_KEY" ] && [ -n "$PRIVATE_KEY" ]; then
     bin/clinotty composer config http-basic.repo.magento.com $PUBLIC_KEY $PRIVATE_KEY
     PUBLIC_KEY=''
@@ -134,11 +140,11 @@ if [ -n "$PUBLIC_KEY" ] && [ -n "$PRIVATE_KEY" ]; then
 fi
 
 echo ''
-printf "${GREEN}7) Forcing reinstall of composer dependencies to ensure perms & reqs..${NC}\n"
+printf "${GREEN}10) Forcing reinstall of composer dependencies to ensure perms & reqs..${NC}\n"
 bin/clinotty composer install
 
 echo ''
-printf "${GREEN}8) Installing magento via commandline..${NC}\n"
+printf "${GREEN}11) Installing magento via commandline..${NC}\n"
 bin/clinotty bin/magento setup:install \
   --db-host=db \
   --db-name=magento \
@@ -156,44 +162,44 @@ bin/clinotty bin/magento setup:install \
   --use-rewrites=1
 
 echo ''
-printf "${GREEN}9) Turning on developer mode..${NC}\n"
+printf "${GREEN}12) Turning on developer mode..${NC}\n"
 bin/clinotty bin/magento deploy:mode:set developer
 bin/clinotty bin/magento indexer:reindex
 
 echo ''
-printf "${GREEN}10) Forcing deploy of static content to speed up initial requests...${NC}\n"
+printf "${GREEN}13) Forcing deploy of static content to speed up initial requests...${NC}\n"
 bin/clinotty bin/magento setup:static-content:deploy -f 
 
 echo ''
-printf "${GREEN}11) Enabling Redis for cache..${NC}\n"
+printf "${GREEN}14) Enabling Redis for cache..${NC}\n"
 bin/clinotty bin/magento setup:config:set --no-interaction --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=0
 
 echo ''
-printf "${GREEN}12) Enabling Redis for Full Page Cache...${NC}\n"
+printf "${GREEN}15) Enabling Redis for Full Page Cache...${NC}\n"
 bin/clinotty bin/magento setup:config:set --no-interaction  --page-cache=redis --page-cache-redis-server=redis --page-cache-redis-db=1 --page-cache-redis-compress-data=1
 
 echo ''
-printf "${GREEN}13) Enabling Redis for session...${NC}\n"
+printf "${GREEN}16) Enabling Redis for session...${NC}\n"
 bin/clinotty bin/magento setup:config:set --no-interaction --session-save=redis --session-save-redis-host=redis --session-save-redis-log-level=4 --session-save-redis-db=2
 
 echo ''
-printf "${GREEN}14) Clearing the cache for good measure...${NC}\n"
+printf "${GREEN}17) Clearing the cache for good measure...${NC}\n"
 bin/clinotty bin/magento cache:flush
 
 echo ''
-printf "${GREEN}15) Copying 'app' folder to host after install...${NC}\n"
+printf "${GREEN}18) Copying 'app' folder to host after install...${NC}\n"
 bin/copyfromcontainer app
 
 echo ''
-printf "${GREEN}16) Copying 'vendor' folder to host after install...${NC}\n"
+printf "${GREEN}19) Copying 'vendor' folder to host after install...${NC}\n"
 bin/copyfromcontainer vendor
 
 echo ''
-printf "${GREEN}17) Restarting containers with host bind mounts for dev...${NC}\n"
+printf "${GREEN}20) Restarting containers with host bind mounts for dev...${NC}\n"
 bin/restart
 
 echo ''
-printf "${GREEN}18) Add your domain to /etc/hosts...${NC}\n"
+printf "${GREEN}21) Add your domain to /etc/hosts...${NC}\n"
 
 read -p "Should I add an entry in hosts file? " -n 1 -r
 echo ''
