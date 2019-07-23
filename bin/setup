@@ -22,6 +22,12 @@ rep=$(curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null)
 status=$?
 
 
+ENVFILELOCATION="$BASE/env/db.env"
+
+echo "" >> $ENVFILELOCATION
+echo "MYSQL_PORT=$MYSQLPORT" >> $ENVFILELOCATION
+
+
 printf "${ORANGE}1) First make sure that docker is running${NC}\n"
 echo ''
 if [ "$status" == "7" ]; then
@@ -47,11 +53,6 @@ fi
 
 echo ''
 printf "${ORANGE}3) Determining or creating mysql root password${NC}\n"
-ENVFILELOCATION="$BASE/env/db.env"
-
-echo "" >> $ENVFILELOCATION
-echo "MYSQL_PORT=$MYSQLPORT" >> $ENVFILELOCATION
-
 echo "Looking in $ENVFILELOCATION"
 if [ -f "$ENVFILELOCATION" ]; then
   printf "${GREEN}$ENVFILELOCATION exists${NC}\n"
