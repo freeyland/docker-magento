@@ -1,4 +1,5 @@
 #!/bin/bash
+DOMAIN=${1:-magento2.test}
 VERSION=${2:-2.3.0}
 
 git clone https://github.com/freeyland/docker-magento.git ./
@@ -14,4 +15,4 @@ git init
 
 bin/download $VERSION
 
-bin/setup
+bin/setup $DOMAIN

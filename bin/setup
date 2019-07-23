@@ -2,6 +2,8 @@
 
 clear
 
+BASE_URL=${1:-magento2.test}
+
 BASE="$(pwd)"
 
 RED='\033[0;31m'
@@ -58,7 +60,7 @@ fi
 echo ''
 printf "${ORANGE}2) Determing local domain${NC}\n"
 
-while [ -z "$DOMAIN" ]; do
+
 echo "Enter a domain"
 echo "We need a domain to access your local development environment. This"
 echo "is because there is only one secure (443) port on your computer, and"
@@ -70,7 +72,6 @@ echo ''
 echo "**YOU NEED TO USE THE FORMAT my-website.local, WITH A DOT!**"
 echo ''
 read DOMAIN
-done
 #echo "You entered $DOMAIN"
 
 #cp /dev/null $ENVFILELOCATION
