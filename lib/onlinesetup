@@ -1,10 +1,7 @@
 #!/bin/bash
 VERSION=${2:-2.3.0}
 
-#git clone https://github.com/freeyland/docker-magento.git .
-
 curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template|bash -s - magento-2
-
 bin/download $VERSION
 
 
