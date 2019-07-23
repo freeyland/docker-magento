@@ -34,7 +34,7 @@ services:
     image: percona:5.7
     container_name: ${PROJECT}-db
     ports:
-      - "3307:3306"
+      - "$MYSQL_PORT:3306"
     env_file: env/db.env
     volumes:
       - dbdata:/var/lib/mysql
