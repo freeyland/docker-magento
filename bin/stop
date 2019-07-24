@@ -1,3 +1,2 @@
 #!/bin/bash
-PROJECT=$(grep PROJECT .env | cut -d '=' -f2)
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml -p $PROJECT stop
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml stop

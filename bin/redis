@@ -1,3 +1,2 @@
 #!/bin/bash
-PROJECT=$(grep PROJECT .env | cut -d '=' -f2)
-docker-compose -p $PROJECT exec redis "$@"
+docker-compose exec redis "$@"

@@ -38,18 +38,9 @@ echo 'Docker is running'
 fi
 
 echo ''
-printf "${ORANGE}2) First make sure all containers are stopped${NC}\n"
-echo ''
-read -p "Should I force remove ALL containers?" -n 1 -r
-echo ''
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-    if [ ! "$(docker ps -q -f name=<name>)" ]; then
-        bin/removeall
-    fi
-else
-    bin/stop
-fi
+printf "${ORANGE}2) Make sure all containers are stopped${NC}\n"
+bin/stop
+
 
 echo ''
 printf "${ORANGE}3) Determining or creating mysql root password${NC}\n"
@@ -102,7 +93,7 @@ fi
 
 echo ''
 printf "${ORANGE}6) Lets bring up the containers...${NC}\n"
-docker-compose -f docker-compose.yml -p $PROJECT up -d 
+docker-compose -f docker-compose.yml up -d 
 sleep 3 #Ensure containers are started...
 
 echo ''
