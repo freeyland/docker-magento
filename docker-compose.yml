@@ -36,7 +36,8 @@ services:
     ports:
       - "$MYSQL_PORT:3306"
     volumes:
-      - dbdata:/var/lib/mysql
+      #- dbdata:/var/lib/mysql
+      - ./mysqldata:/var/lib/mysql
 
   redis:
     image: redis:5.0
@@ -62,5 +63,5 @@ services:
 
 volumes:
   appdata:
-  dbdata:
+  #dbdata:
   sockdata:
