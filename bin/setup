@@ -141,26 +141,11 @@ echo ''
 printf "${ORANGE}10) Forcing reinstall of composer dependencies to ensure perms & reqs..${NC}\n"
 bin/clinotty composer install
 
+
 echo ''
 printf "${ORANGE}11) Installing magento via commandline..${NC}\n"
-bin/clinotty bin/magento setup:install -vvv \
-  --db-host=db \
-  --db-name=magento \
-  --backend-frontname=admin \
-  --db-user=magento \
-  --db-password=$MYSQL_ROOT_PASSWORD \
-  --base-url=https://$DOMAIN/ \
-  --admin-firstname=John \
-  --admin-lastname=Smith \
-  --admin-email=test@studioemma.be \
-  --admin-user=studio \
-  --admin-password=password123 \
-  --use-sample-data \
-  --language=nl_BE \
-  --currency=EUR \
-  --timezone=Europe/Brussels \
-  --use-rewrites=1
-
+bin/install-magento $DOMAIN $MYSQL_ROOT_PASSWORD
+exit 1
 echo ''
 printf "${ORANGE}12) Turning on developer mode..${NC}\n"
 bin/clinotty bin/magento deploy:mode:set developer
