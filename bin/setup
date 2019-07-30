@@ -143,9 +143,10 @@ bin/clinotty composer install
 
 echo ''
 printf "${ORANGE}11) Installing magento via commandline..${NC}\n"
-bin/clinotty bin/magento setup:install \
+bin/clinotty bin/magento setup:install -vvv \
   --db-host=db \
   --db-name=magento \
+  --backend-frontname=admin \
   --db-user=magento \
   --db-password=password123 \
   --base-url=https://magento.docker/ \
@@ -154,6 +155,7 @@ bin/clinotty bin/magento setup:install \
   --admin-email=test@studioemma.be \
   --admin-user=studio \
   --admin-password=password123 \
+  --use-sample-data \
   --language=nl_BE \
   --currency=EUR \
   --timezone=Europe/Brussels \
