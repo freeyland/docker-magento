@@ -148,8 +148,8 @@ bin/clinotty bin/magento setup:install -vvv \
   --db-name=magento \
   --backend-frontname=admin \
   --db-user=magento \
-  --db-password=password123 \
-  --base-url=https://magento.docker/ \
+  --db-password=$MYSQL_ROOT_PASSWORD \
+  --base-url=https://$DOMAIN/ \
   --admin-firstname=John \
   --admin-lastname=Smith \
   --admin-email=test@studioemma.be \
