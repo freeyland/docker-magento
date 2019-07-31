@@ -1,4 +1,11 @@
 #!/bin/bash
+uname=$(uname)
+if [ "$uname" = "Linux" ]; then
+    cd "$(dirname "$(readlink -f "$0")")"
+else
+    cd "$(cd "$(dirname "$0")"; pwd -P)"
+fi
+cd ..
 PROJECT=$(grep PROJECT .env | cut -d '=' -f2)
 [ -z "$1" ] && echo "Please specify a CLI command (ex. ls)" && exit
 docker-compose -p $PROJECT exec -u root phpfpm "$@"

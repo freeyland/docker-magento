@@ -3,18 +3,26 @@
 clear
 
 DOMAIN=${1:-magento2.test}
-MYSQLPORT=${2:-3306}
-
-BASE="$(pwd)"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 ORANGE='\033[0;33m'
 NC='\033[0m' # No Color
 
+#Make sure we are in the bin dir
+uname=$(uname)
+if [ "$uname" = "Linux" ]; then
+    cd "$(dirname "$(readlink -f "$0")")"
+else
+    cd "$(cd "$(dirname "$0")"; pwd -P)"
+fi
+cd ..
+
+BASE="$(pwd)"
+echo "1) $BASE"
 
 printf "${ORANGE}"
-cat ./bin/my-ascii-art.txt
+cat ./lib/my-ascii-art.txt
 printf "${NC}\n"
 
 
@@ -24,18 +32,28 @@ status=$?
 
 ENVFILELOCATION="$BASE/.env"
 
-echo "" >> $ENVFILELOCATION
-echo "MYSQL_PORT=$MYSQLPORT" >> $ENVFILELOCATION
+
+if ! docker info > /dev/null 2>&1; then
+    if [ "$uname" = "Darwin" ]; then
+        open -a Docker
+    elif [ "$uname" = "Linux" ]; then
+        sudo systemctl restart docker.service
+    fi
+fi
 
 
 printf "${ORANGE}1) First make sure that docker is running${NC}\n"
-echo ''
-if [ "$status" == "7" ]; then
-    printf "${RED}DOCKER is not running! Start docker for desktop${NC}\n"
-    exit 1
-else
-echo 'Docker is running'
+if [ "$uname" = "Darwin" ]; then
+  if [ "$status" == "7" ]; then
+      printf "${RED}DOCKER is not running! Start docker for desktop${NC}\n"
+      exit 1
+  elif [ "$uname" = "Linux" ]; then
+        sudo systemctl restart docker.service
+  else
+    echo 'Docker is running'
+  fi
 fi
+
 
 echo ''
 printf "${ORANGE}2) Make sure all containers are stopped${NC}\n"
@@ -48,7 +66,7 @@ printf "${ORANGE}3) Determining or creating mysql root password${NC}\n"
 echo "Looking in $ENVFILELOCATION"
 if [ -f "$ENVFILELOCATION" ]; then
   printf "${GREEN}$ENVFILELOCATION exists${NC}\n"
-  echo "Looking for variable MYSQL_ROOT_PASSWORD in $ENVFILELOCATION ${NC}\n"
+  echo "Looking for variable MYSQL_ROOT_PASSWORD in $ENVFILELOCATION \n"
   source "$ENVFILELOCATION"
   if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
     printf "${RED}MYSQL_ROOT_PASSWORD is not set in $ENVFILELOCATION ${NC}\n"
@@ -77,9 +95,9 @@ echo "You entered $DOMAIN"
 PROJECT="${DOMAIN//./}"
 LINE="PROJECT=$PROJECT"
 echo "We entered $LINE in .env"
-echo "$LINE" >> ".env"
+grep -qF -- "$LINE" "$ENVFILELOCATION" || echo "$LINE" >> "$ENVFILELOCATION"
 LINE="VIRTUAL_HOST=$DOMAIN"
-echo "$LINE" >> ".env"
+grep -qF -- "$LINE" "$ENVFILELOCATION" || echo "$LINE" >> "$ENVFILELOCATION"
 echo "We entered $LINE in .env"
 source "$ENVFILELOCATION"
 
@@ -93,13 +111,14 @@ fi
 
 echo ''
 printf "${ORANGE}6) Lets bring up the containers...${NC}\n"
-docker-compose -f docker-compose.yml up -d 
+docker-compose -p $PROJECT -f docker-compose.yml up -d 
 sleep 3 #Ensure containers are started...
 
 echo ''
 printf "${ORANGE}7) Copying all files from host to container...${NC}\n"
 rm -rf src/vendor #Clear for step below
 bin/copytocontainer --all
+
 
 echo ''
 printf "${ORANGE}8) Making bin/magento executable...${NC}\n"
@@ -145,7 +164,7 @@ bin/clinotty composer install
 echo ''
 printf "${ORANGE}11) Installing magento via commandline..${NC}\n"
 bin/install-magento $DOMAIN $MYSQL_ROOT_PASSWORD
-exit 1
+
 echo ''
 printf "${ORANGE}12) Turning on developer mode..${NC}\n"
 bin/clinotty bin/magento deploy:mode:set developer
@@ -183,20 +202,25 @@ echo ''
 printf "${ORANGE}20) Restarting containers with host bind mounts for dev...${NC}\n"
 bin/restart
 
-echo ''
-printf "${ORANGE}21) Add your domain to /etc/hosts...${NC}\n"
-echo "127.0.0.1 $DOMAIN" | sudo tee -a /etc/hosts
-printf "${GREEN}"
-echo "-----------------------------------------"
-cat /etc/hosts
-echo "-----------------------------------------"
-printf "${NC}\n"
-
+if [ "$(uname)" == "Darwin" ]; then
+  echo ''
+  printf "${ORANGE}21) Add your domain to /etc/hosts...${NC}\n"
+  LINE="127.0.0.1 $DOMAIN"
+  grep -qF -- "$LINE" "/etc/hosts" || echo "$LINE" >> "/etc/hosts"
+  printf "${GREEN}"
+  echo "-----------------------------------------"
+  cat /etc/hosts
+  echo "-----------------------------------------"
+  printf "${NC}\n"
+fi
 
 echo ''
 printf "${GREEN}Docker development environment setup complete.${NC}\n"
 printf "${ORANGE}You may now access your Magento instance at https://${DOMAIN}/ ${NC}\n"
-printf "${ORANGE}Admin user: studio${NC}\n"
+if [ "$(uname)" == "Darwin" ]; then
+  open -a "Google Chrome" https://${DOMAIN}/ https://${DOMAIN}/admin
+fi
+printf "${ORANGE}Admin user: magento${NC}\n"
 printf "${ORANGE}Admin pass: password123${NC}\n"
 printf "${ORANGE}Mysql root pass: $MYSQL_ROOT_PASSWORD ${NC}\n"
 

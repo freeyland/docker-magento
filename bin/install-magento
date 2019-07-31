@@ -11,8 +11,8 @@ bin/clinotty bin/magento setup:install -vvv \
   --base-url=https://$DOMAIN/ \
   --admin-firstname=John \
   --admin-lastname=Smith \
-  --admin-email=test@studioemma.be \
-  --admin-user=studio \
+  --admin-email=info@studioemma.be \
+  --admin-user=magento \
   --admin-password=password123 \
   --use-sample-data \
   --language=nl_BE \

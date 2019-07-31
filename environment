@@ -1,0 +1,57 @@
+#!/bin/bash
+
+uname=$(uname)
+if [ "$uname" = "Linux" ]; then
+    cd "$(dirname "$(readlink -f "$0")")"
+else
+    cd "$(cd "$(dirname "$0")"; pwd -P)"
+fi
+
+# we need some configuration
+if [ -e .env ]; then
+    . "$(pwd)/.env"
+else
+    echo "No config found! First run setup"
+    exit 1
+fi
+
+
+PATH="$(pwd)/bin:$PATH"
+export PATH
+
+cd "src/"
+
+sessionname=$(echo "$DOMAIN" | sed 's/[^a-zA-Z0-9]//g');
+
+MANAGER=$1
+if [ -z "$MANAGER" ]; then
+    MANAGER="$WINDOW_MANAGER"
+fi
+
+if [ "$MANAGER" = "screen" ]; then
+    screen -r $sessionname
+    if [ "$?" -ne 0 ]; then
+        screen -S $sessionname
+    fi
+elif [ "$MANAGER" = "tmux" ]; then
+    tmux -L $sessionname has-session -t $sessionname
+    if [ $? -ne 0 ]; then
+        tmux -L $sessionname new -s $sessionname
+    else
+        tmux -L $sessionname a -t $sessionname
+    fi
+elif [ "$MANAGER" = "byobu" ]; then
+    byobu -L $sessionname has-session -t $sessionname
+    if [ $? -ne 0 ]; then
+        byobu -L $sessionname new -s $sessionname
+    else
+        byobu -L $sessionname a -t $sessionname
+    fi
+elif [ "$MANAGER" = "shell" ]; then
+    exec $SHELL
+else
+    echo "run $0 [screen|tmux|byobu|shell]"
+fi
+
+
+

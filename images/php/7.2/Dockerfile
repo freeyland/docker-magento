@@ -75,6 +75,9 @@ COPY bin/cronstart /usr/local/bin/
 RUN mkdir -p /etc/nginx/html /var/www/html /sock
 RUN chown -R app:app /etc/nginx /var/www /usr/local/etc/php/conf.d /sock
 
+RUN curl -sS -o /usr/local/bin/magerun https://files.magerun.net/n98-magerun2.phar \
+  && chmod +x /usr/local/bin/magerun
+
 USER app:app
 
 VOLUME /var/www
