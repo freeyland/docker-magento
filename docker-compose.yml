@@ -30,7 +30,6 @@ services:
 
   db:
     image: percona:5.7
-    container_name: ${PROJECT}-db
     ports:
       - "$MYSQL_PORT:3306"
     volumes:
