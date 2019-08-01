@@ -255,6 +255,9 @@ Otherwise, this project now automatically sets up Xdebug support with VS Code. I
 
 Running Docker on Linux should be pretty straight-forward. Note that you need to run some [post install commands](https://docs.docker.com/install/linux/linux-postinstall/) as well as [installing Docker Compose](https://docs.docker.com/compose/install/). These steps are taken care of automatically with Docker Desktop, but not on Linux.
 
+### oh-my-zsh/zsh users
+oh-my-zsh users should check if there is no fixed setting for $PATH in their ~/.zshrc. If that is the case you can safely comment it out. If somewhere in your shell startup $PATH is forced you lose the features the ./environment script brings to you.
+
 ## Credits
 
 ### Mark Shust
