@@ -9,7 +9,6 @@ services:
     #  context: .
     #  dockerfile: images/Dockerfile_nginx
     image: markoshust/magento-nginx:1.13-7
-    container_name: ${PROJECT}-app
     ports:
       - "80:8000"
       - "443:8443"
@@ -25,7 +24,6 @@ services:
 
   phpfpm:
     image: markoshust/magento-php:latest
-    container_name: ${PROJECT}-phpfpm
     links:
       - db
     volumes: *appvolumes
@@ -36,17 +34,14 @@ services:
     ports:
       - "$MYSQL_PORT:3306"
     volumes:
-      #- dbdata:/var/lib/mysql
-      - ./mysqldata:/var/lib/mysql
+      - dbdata:/var/lib/mysql
+      #- ./mysqldata:/var/lib/mysql
 
   redis:
     image: redis:5.0
-    container_name: ${PROJECT}-redis
-
 
   elasticsearch:
     image: elasticsearch:5.6
-    container_name: ${PROJECT}-elasticsearch
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -63,5 +58,5 @@ services:
 
 volumes:
   appdata:
-  #dbdata:
+  dbdata:
   sockdata:
