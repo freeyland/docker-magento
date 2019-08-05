@@ -1,5 +1,12 @@
 #!/bin/bash
-current_folder=${PWD##*/}
-docker volume rm ${current_folder}_appdata
-docker volume rm ${current_folder}_dbdata
-docker volume rm ${current_folder}_sockdata
+uname=$(uname)
+if [ "$uname" = "Linux" ]; then
+    cd "$(dirname "$(readlink -f "$0")")"
+else
+    cd "$(cd "$(dirname "$0")"; pwd -P)"
+fi
+cd ..
+PROJECT=$(grep PROJECT .env | cut -d '=' -f2)
+docker volume rm ${PROJECT}_appdata
+docker volume rm ${PROJECT}_dbdata
+docker volume rm ${PROJECT}_sockdata
