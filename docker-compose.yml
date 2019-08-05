@@ -31,7 +31,7 @@ services:
   db:
     image: percona:5.7
     ports:
-      - "$MYSQL_PORT:3306"
+      - "3306:3306"
     volumes:
       - dbdata:/var/lib/mysql
       #- ./mysqldata:/var/lib/mysql
