@@ -1,7 +1,6 @@
 #!/bin/bash
 DOMAIN=${1:-magento2.test}
 VERSION=${2:-2.3.0}
-BYPASS=${3:-no}
 
 git clone https://github.com/freeyland/docker-magento.git ./
 
@@ -13,7 +12,7 @@ git checkout origin/master
 rm -rf .git
 git init
 
-if [ $BYPASS != "yes" ]; 
+if [ $VERSION != "bypass" ]; 
 then
 bin/download $VERSION
 fi
