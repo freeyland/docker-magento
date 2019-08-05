@@ -29,7 +29,7 @@ services:
     volumes: *appvolumes
 
   db:
-    image: percona:5.7
+    image: mysql:5.7
     ports:
       - "3306:3306"
     environment:
@@ -38,7 +38,7 @@ services:
     volumes:
       - dbdata:/var/lib/mysql
       #- ./mysqldata:/var/lib/mysql
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --innodb-doublewrite=0
 
   redis:
     image: redis:5.0
