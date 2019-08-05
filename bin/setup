@@ -89,7 +89,7 @@ echo ''
 printf "${ORANGE}5) Saving local domain${NC}\n"
 echo "You entered $DOMAIN"
 
-ENVFILELOCATION="$BASE/.en
+ENVFILELOCATION="$BASE/.en"
 #cp /dev/null $ENVFILELOCATION
 PROJECT="${DOMAIN//./}"
 LINE="PROJECT=$PROJECT"
