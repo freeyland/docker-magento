@@ -6,7 +6,7 @@ bin/clinotty bin/magento setup:install -vvv \
   --db-host=db \
   --db-name=magento \
   --backend-frontname=admin \
-  --db-user=magento \
+  --db-user=root \
   --db-password=$MYSQL_ROOT_PASSWORD \
   --base-url=https://$DOMAIN/ \
   --admin-firstname=John \
