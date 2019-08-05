@@ -30,9 +30,6 @@ rep=$(curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null)
 status=$?
 
 
-ENVFILELOCATION="$BASE/.env"
-
-
 if ! docker info > /dev/null 2>&1; then
     if [ "$uname" = "Darwin" ]; then
         open -a Docker
@@ -40,7 +37,6 @@ if ! docker info > /dev/null 2>&1; then
         sudo systemctl restart docker.service
     fi
 fi
-
 
 printf "${ORANGE}1) First make sure that docker is running${NC}\n"
 if [ "$uname" = "Darwin" ]; then
@@ -63,6 +59,8 @@ bin/stop
 echo ''
 printf "${ORANGE}3) Determining or creating mysql root password${NC}\n"
 
+
+ENVFILELOCATION="$BASE/env/db.env"
 echo "Looking in $ENVFILELOCATION"
 if [ -f "$ENVFILELOCATION" ]; then
   printf "${GREEN}$ENVFILELOCATION exists${NC}\n"
@@ -88,9 +86,10 @@ else
 fi
 
 echo ''
-printf "${ORANGE}5) Determing local domain${NC}\n"
+printf "${ORANGE}5) Saving local domain${NC}\n"
 echo "You entered $DOMAIN"
 
+ENVFILELOCATION="$BASE/.en
 #cp /dev/null $ENVFILELOCATION
 PROJECT="${DOMAIN//./}"
 LINE="PROJECT=$PROJECT"

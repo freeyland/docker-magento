@@ -1,0 +1,7 @@
+#!/bin/bash
+git init -qqq
+git remote add origin https://github.com/freeyland/docker-magento
+git fetch origin -qqq
+git checkout origin/master
+rm -rf .git
+git init
