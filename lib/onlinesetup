@@ -2,19 +2,8 @@
 DOMAIN=${1:-magento2.test}
 VERSION=${2:-2.3.0}
 
-git clone https://github.com/freeyland/docker-magento.git
+curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template|bash -s - magento-2
 
-#!/bin/bash
-git init -qqq
-git remote add origin https://github.com/freeyland/docker-magento
-git fetch origin -qqq
-git checkout origin/master
-rm -rf .git
-git init
-
-if [ $VERSION != "bypass" ]; 
-then
 bin/download $VERSION
-fi
 
 bin/setup $DOMAIN
