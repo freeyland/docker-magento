@@ -35,6 +35,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-magento}
       - MYSQL_DATABASE=${MYSQL_DATABASE:-magento}
+      - MYSQL_USER=${MYSQL_USER:-magento}
+      - MYSQL_PASS=${MYSQL_PASS:-magento}
     volumes:
       - dbdata:/var/lib/mysql
       #- ./mysqldata:/var/lib/mysql
