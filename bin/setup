@@ -19,7 +19,7 @@ fi
 cd ..
 
 BASE="$(pwd)"
-echo "1) $BASE"
+echo "0) BASE= $BASE"
 
 printf "${ORANGE}"
 cat ./lib/my-ascii-art.txt
@@ -204,8 +204,8 @@ bin/restart
 if [ "$(uname)" == "Darwin" ]; then
   echo ''
   printf "${ORANGE}21) Add your domain to /etc/hosts...${NC}\n"
-  LINE="127.0.0.1 $DOMAIN"
-  sudo grep -qF -- "$LINE" "/etc/hosts" || echo "$LINE" >> "/etc/hosts"
+  bin/manage-etc-hosts $DOMAIN
+
   printf "${GREEN}"
   echo "-----------------------------------------"
   sudo cat /etc/hosts
@@ -223,5 +223,7 @@ printf "${ORANGE}Admin user: magento${NC}\n"
 printf "${ORANGE}Admin pass: password123${NC}\n"
 
 echo ''
-printf "${RED}Environment has been set.${NC}\n"
-../environment
+printf "${RED}Adding bin folder to your PATH:${NC}\n"
+. environment $WINDOW_MANAGER
+printf "${GREEN}See: https://github.com/freeyland/docker-magento#custom-cli-commands for a list of available commands${NC}\n"
+

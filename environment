@@ -1,12 +1,5 @@
 #!/bin/bash
 
-uname=$(uname)
-if [ "$uname" = "Linux" ]; then
-    cd "$(dirname "$(readlink -f "$0")")"
-else
-    cd "$(cd "$(dirname "$0")"; pwd -P)"
-fi
-
 # we need some configuration
 if [ -e .env ]; then
     . "$(pwd)/.env"
@@ -16,7 +9,12 @@ else
 fi
 
 
-PATH="$(pwd)/bin:$PATH"
+new_entry="$(pwd)/bin"
+
+case ":$PATH:" in
+  *":$new_entry:"*) :;; # already there
+  *) PATH="$new_entry:$PATH";; # or PATH="$PATH:$new_entry"
+esac
 export PATH
 
 cd "src/"
