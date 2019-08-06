@@ -224,4 +224,4 @@ printf "${ORANGE}Admin pass: password123${NC}\n"
 
 echo ''
 printf "${RED}Environment has been set.${NC}\n"
-environment
+../environment
