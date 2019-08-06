@@ -66,12 +66,12 @@ echo "We entered $LINE in .env"
 source "$ENVFILELOCATION"
 
 echo ''
-printf "${ORANGE}3) Make sure all containers are stopped${NC}\n"
+printf "${ORANGE}3) Make sure all containers are stopped${NC} \n"
 bin/stop
 
 
 echo ''
-printf "${ORANGE}4) Determining or creating mysql root password${NC}\n"
+printf "${ORANGE}4) Determining or creating mysql root password${NC} \n"
 
 
 ENVFILELOCATION="$BASE/env/db.env"
@@ -205,10 +205,10 @@ if [ "$(uname)" == "Darwin" ]; then
   echo ''
   printf "${ORANGE}21) Add your domain to /etc/hosts...${NC}\n"
   LINE="127.0.0.1 $DOMAIN"
-  grep -qF -- "$LINE" "/etc/hosts" || echo "$LINE" >> "/etc/hosts"
+  sudo grep -qF -- "$LINE" "/etc/hosts" || echo "$LINE" >> "/etc/hosts"
   printf "${GREEN}"
   echo "-----------------------------------------"
-  cat /etc/hosts
+  sudo cat /etc/hosts
   echo "-----------------------------------------"
   printf "${NC}\n"
 fi
@@ -221,5 +221,7 @@ if [ "$(uname)" == "Darwin" ]; then
 fi
 printf "${ORANGE}Admin user: magento${NC}\n"
 printf "${ORANGE}Admin pass: password123${NC}\n"
-printf "${ORANGE}Mysql root pass: $MYSQL_ROOT_PASSWORD ${NC}\n"
 
+echo ''
+printf "${RED}Environment has been set.${NC}\n"
+environment

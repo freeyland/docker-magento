@@ -53,6 +53,8 @@ Run this automated one-liner from the directory you want to install your project
 
 ```bash
 curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/onlinesetup | bash -s -- magento.test 2.3.2
+OR:
+source <(curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/onlinesetup) magento.test 2.3.2
 ```
 
 The magento2.test above defines the hostname to use, and the 2.3.2 defines the Magento version to install. Note that since we need a write to `/etc/hosts` for DNS resolution, you will be prompted for your system password during setup. You will also be prompted for a domain name.
