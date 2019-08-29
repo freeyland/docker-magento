@@ -9,5 +9,4 @@ then
 bin/download $VERSION
 fi
 
-
 bin/setup $DOMAIN
