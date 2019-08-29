@@ -3,7 +3,7 @@ DOMAIN=${1:-magento2.test}
 VERSION=${2:-2.3.0}
 BYPASS=${3:-no}
 
-curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template|bash -s - magento-2
+curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template|bash -s
 
 if [ $BYPASS != "bypass" ]; 
 then
