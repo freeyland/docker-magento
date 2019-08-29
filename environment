@@ -8,6 +8,19 @@ else
     exit 1
 fi
 
+if [ -z "$DOMAIN" ]; then
+    echo "Missing DOMAIN in .env"
+    exit 1
+fi
+
+if [ -z "$PROJECT" ]; then
+    PROJECT="${DOMAIN//./}"
+    LINE="PROJECT=$PROJECT"
+    echo "We entered $LINE in .env"
+    grep -qF -- "$LINE" "$ENVFILELOCATION" || echo "$LINE" >> "$ENVFILELOCATION"
+    source "$ENVFILELOCATION"
+fi
+
 
 new_entry="$(pwd)/bin"
 

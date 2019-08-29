@@ -63,15 +63,8 @@ After the one-liner above completes running, you should be able to access your s
 
 ### Manual Setup
 
-Clone the github repo:
-```
-git clone https://github.com/freeyland/docker-magento.git projectname
-cd projectname
-```
-
-
 #### New Projects
-
+From the folder where all your projects are existing
 ```bash
 # Download the Docker Compose template:
 curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template | bash -s -- magento-2
@@ -99,10 +92,10 @@ open your browser and type the url
 ```
 
 #### Existing Projects
-
+From your existing project folder:
 ```bash
 # Download the Docker Compose template:
-curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template | bash -s -- magento-2
+curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template | bash -s
 
 # Remove existing src directory:
 rm -rf src
@@ -114,25 +107,32 @@ cp -R ~/Sites/existing src
 # Create a DNS host entry for the site:
 echo "127.0.0.1 magento2.test" | sudo tee -a /etc/hosts
 
+#Set DOMAIN in .env
+DOMAIN=magento.test
+
+#set environment
+./environment
+
+#start the containers
+start
 # Copy some files to the containers and install dependencies, then restart the containers:
-docker-compose up -d
-bin/copytocontainer --all
+copytocontainer --all
 
 # Install composer dependencies, then copy artifacts back to the host:
-bin/composer install
-bin/copyfromcontainer vendor
+composer install
+copyfromcontainer vendor
 
 # Import existing database:
-bin/clinotty mysql -hdb -umagento -pmagento magento < existing/magento.sql
+clinotty mysql -hdb -umagento -pmagento magento < existing/magento.sql
 
 # Update database connection details:
 # vi src/app/etc/env.php
 
 # Set base URLs to local environment URL:
-bin/magento config:set web/secure/base_url https://magento2.test/
-bin/magento config:set web/unsecure/base_url https://magento2.test/
+magento config:set web/secure/base_url https://magento2.test/
+magento config:set web/unsecure/base_url https://magento2.test/
 
-bin/restart
+restart
 
 open https://magento2.test
 ```
