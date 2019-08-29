@@ -4,7 +4,7 @@ VERSION=${2:-2.3.0}
 BYPASS=${3:-no}
 
 echo "A"
-curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template|bash -s
+#curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template|bash -s
 echo "B"
 if [ $BYPASS != "bypass" ]; 
 then
@@ -12,4 +12,4 @@ bin/download $VERSION
 fi
 
 echo "C"
-bin/setup $DOMAIN
+#bin/setup $DOMAIN
