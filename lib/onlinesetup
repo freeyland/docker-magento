@@ -1,9 +1,14 @@
 #!/bin/bash
 DOMAIN=${1:-magento2.test}
 VERSION=${2:-2.3.0}
+BYPASS=${4:-no}
 
 curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template|bash -s - magento-2
 
+if [ $BYPASS != "bypass" ]; 
+then
 bin/download $VERSION
+fi
+
 
 bin/setup $DOMAIN
