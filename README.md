@@ -62,12 +62,18 @@ Other folder will need copytocontainer and copyfromcontainer command to move you
 
 > macOS & Linux Only
 
-Run this automated one-liner from the directory you want to install your project to:
+Run this automated script from within the directory you want to install your project to:
 
 ```bash
 curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/onlinesetup | bash -s -- magento.test 2.3.2
 OR:
 source <(curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/onlinesetup) magento.test 2.3.2
+```
+
+Run following command if you don't want to add bin/ before every command.
+It will change your $PATH so that all scripts under bin are available as general commands:
+```
+./environment
 ```
 
 The magento2.test above defines the hostname to use, and the 2.3.2 defines the Magento version to install. Note that since we need a write to `/etc/hosts` for DNS resolution, you will be prompted for your system password during setup. You will also be prompted for a domain name.
@@ -82,8 +88,12 @@ From the folder where all your projects are existing
 # Download the Docker Compose template:
 curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template | bash -s -- magento-2
 
+
+#run environment script
+./environment
+
 # Download the version of Magento you want to use with:
-bin/download 2.3.2
+download 2.3.2
 
 # or if you'd rather install with Composer, run:
 #
@@ -99,9 +109,9 @@ bin/download 2.3.2
 
 
 # Run the setup installer for Magento:
-bin/setup
+setup
 
-open your browser and type the url
+open your browser and type the url at the end of the ouput of the setup script
 ```
 
 #### Existing Projects
