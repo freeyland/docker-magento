@@ -224,6 +224,6 @@ printf "${ORANGE}Admin pass: password123${NC}\n"
 
 echo ''
 printf "${RED}Adding bin folder to your PATH:${NC}\n"
-. environment $WINDOW_MANAGER
+source environment $WINDOW_MANAGER
 printf "${GREEN}See: https://github.com/freeyland/docker-magento#custom-cli-commands for a list of available commands${NC}\n"
 

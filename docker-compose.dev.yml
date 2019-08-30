@@ -1,12 +1,9 @@
-# Mark Shust's Docker Configuration for Magento (https://github.com/markshust/docker-magento)
-# Version 23.2.2
-
 version: "3"
 
 services:
   app:
-    volumes: &appvolumes
-      # Host mounts with performance penalty, only put what is necessary here
+    volumes:
+      &appvolumes # Host mounts with performance penalty, only put what is necessary here
       - ./src/app/code:/var/www/html/app/code:delegated
       - ./src/app/design:/var/www/html/app/design:delegated
       - ./src/app/etc:/var/www/html/app/etc:delegated
@@ -28,7 +25,6 @@ services:
     ports:
       - "1025"
       - "8025:8025"
-
   # Disabling cron by default as it uses higher CPU, enable if needed
   #cron:
   #  volumes: *appvolumes

@@ -65,4 +65,7 @@ else
 fi
 
 
+echo "Environment has been changed to $PATH \n"
+
+
 

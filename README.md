@@ -31,7 +31,7 @@ This configuration is intended to be used as a Docker-based development environm
 
 Folders:
 
-- `images`: Docker images for nginx and php (not needed as they are available on DOcker Hub)
+- `images`: Docker images for nginx and php (not needed as they are available on Docker Hub)
 - `bin`: wrappers around well known docker/docker-compose commands and dome other usefull commands
 - `env`: environment files for e.g. mysql credentials
 - `src`: will contain your magento code
@@ -39,9 +39,22 @@ Folders:
 
 ## Prerequisites
 
-This setup assumes you are running Docker on a computer with at least 4GB of allocated RAM, a dual-core, and an SSD hard drive. [Download & Install Docker Desktop](https://www.docker.com/products/docker-desktop).
+This setup assumes you are running Docker on a computer with at least 4GB of allocated RAM, a dual-core, and an SSD hard drive. [Download & Install Docker Desktop](https://www.docker.com/products/docker-desktop). **Make sure that you allocate at least 5gb to Docker for Mac!**
 
 This configuration has been tested on Mac & Linux.
+
+## Important to know
+
+After the containers have been brought up, following folders are nfs mapped to your Docker container:
+
+- ./src/app/code
+- ./src/app/design
+- ./src/app/etc
+- ./src/composer.json
+- ./src/composer.lock
+- ./src/nginx.conf.sample
+
+Other folder will need copytocontainer and copyfromcontainer command to move your files. (See further)
 
 ## Quick Setup
 
