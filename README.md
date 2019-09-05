@@ -162,6 +162,8 @@ open https://magento2.test
 
 ## Custom CLI Commands
 
+Note that when using environment script there is no need to put bin/ in front of your command!
+
 - `bin/bash`: Drop into the bash prompt of your Docker container. The `phpfpm` container should be mainly used to access the filesystem within Docker.
 - `bin/dev-urn-catalog-generate`: Generate URN's for PHPStorm and remap paths to local host. Restart PHPStorm after running this command.
 - `bin/cli`: Run any CLI command without going into the bash prompt. Ex. `bin/cli ls`
