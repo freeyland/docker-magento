@@ -225,4 +225,4 @@ printf "${ORANGE}Admin pass: password123${NC}\n"
 printf "${GREEN}See: https://github.com/freeyland/docker-magento#custom-cli-commands for a list of available commands${NC}\n"
 
 echo ''
-printf "${RED}Don't forget to run ./environment !{NC}\n"
+printf "${RED}Don't forget to run ./environment !${NC}\n"
