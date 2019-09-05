@@ -76,7 +76,7 @@ It will change your $PATH so that all scripts under bin are available as general
 ./environment
 ```
 
-The magento2.test above defines the hostname to use, and the 2.3.2 defines the Magento version to install. Note that since we need a write to `/etc/hosts` for DNS resolution, you will be prompted for your system password during setup. You will also be prompted for a domain name.
+The magento2.test above defines the hostname to use, and the 2.3.2 defines the Magento version to install. Note that since we need a write to `/etc/hosts` for DNS resolution, you will be prompted for your system password during setup. 
 
 After the one-liner above completes running, you should be able to access your site at the provided domain e.g. `https://magento2.test`.
 
