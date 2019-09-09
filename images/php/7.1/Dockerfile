@@ -1,5 +1,5 @@
 FROM php:7.1-fpm-stretch
-MAINTAINER Mark Shust <mark@shust.com>
+MAINTAINER Frederick Eyland <freeyland@gmail.com>
 
 RUN apt-get update && apt-get install -y \
   cron \
@@ -52,7 +52,7 @@ RUN curl -sS https://getcomposer.org/installer | \
   php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN groupadd -g 1000 app \
- && useradd -g 1000 -u 1000 -d /var/www -s /bin/bash app
+  && useradd -g 1000 -u 1000 -d /var/www -s /bin/bash app
 
 RUN apt-get install -y gnupg \
   && curl -sL https://deb.nodesource.com/setup_8.x | bash - \

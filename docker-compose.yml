@@ -5,7 +5,7 @@ services:
     #build:
     #  context: .
     #  dockerfile: images/Dockerfile_nginx
-    image: markoshust/magento-nginx:latest
+    image: freeyland/magento-nginx:latest
     ports:
       - "80:8000"
       - "443:8443"
@@ -20,7 +20,7 @@ services:
       - phpfpm
 
   phpfpm:
-    image: markoshust/magento-php:latest
+    image: freeyland/magento-php:latest
     links:
       - db
     volumes: *appvolumes
