@@ -22,8 +22,8 @@
 
 View Dockerfiles:
 
-- [markoshust/magento-nginx (Docker Hub)](https://hub.docker.com/r/markoshust/magento-nginx/)
-- [markoshust/magento-php (Docker Hub)](https://hub.docker.com/r/markoshust/magento-php/)
+- [freeyland/freeyland-nginx (Docker Hub)](https://hub.docker.com/r/freeyland/nginx)
+- [freeyland/freeyland-php (Docker Hub)](https://hub.docker.com/r/freeyland/php)
 
 ## Usage
 
