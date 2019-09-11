@@ -28,7 +28,8 @@ RUN docker-php-ext-install \
   pdo_mysql \
   soap \
   xsl \
-  zip
+  zip\
+  amqp
 
 RUN echo "deb http://deb.debian.org/debian stretch-backports main" >> /etc/apt/sources.list 
 
