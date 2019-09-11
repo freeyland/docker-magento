@@ -119,6 +119,7 @@ From your existing project folder:
 ```bash
 # Download the Docker Compose template:
 curl -s https://raw.githubusercontent.com/freeyland/docker-magento/master/lib/template | bash -s
+Or just clone the repo
 
 # Remove existing src directory:
 rm -rf src

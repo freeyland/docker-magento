@@ -16,9 +16,9 @@ fi
 if [ -z "$PROJECT" ]; then
     PROJECT="${DOMAIN//./}"
     LINE="PROJECT=$PROJECT"
+    grep -qF -- "$LINE" .env || echo "$LINE" >> .env
     echo "We entered $LINE in .env"
-    grep -qF -- "$LINE" "$ENVFILELOCATION" || echo "$LINE" >> "$ENVFILELOCATION"
-    source "$ENVFILELOCATION"
+    source .env
 fi
 
 
