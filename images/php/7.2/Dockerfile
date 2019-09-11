@@ -42,12 +42,14 @@ RUN pecl channel-update pecl.php.net \
   && docker-php-ext-enable xdebug \
   && sed -i -e 's/^zend_extension/\;zend_extension/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-RUN pecl install amqp \
-  && docker-php-ext-enable amqp
+
 
 RUN apt-get install -y libssh2-1-dev \
   && pecl install ssh2-1.1.2 \
   && docker-php-ext-enable ssh2
+
+RUN pecl install amqp \
+  && docker-php-ext-enable amqp
 
 RUN curl -sS https://getcomposer.org/installer | \
   php -- --install-dir=/usr/local/bin --filename=composer
