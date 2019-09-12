@@ -1,3 +1,4 @@
+# syntax=freeyland/magenbto-php:7.2
 FROM php:7.2-fpm-stretch
 MAINTAINER rederick Eyland <freeyland@gmail.com>>
 
@@ -85,6 +86,8 @@ RUN chown -R app:app /etc/nginx /var/www /usr/local/etc/php/conf.d /sock
 
 RUN curl -sS -o /usr/local/bin/magerun https://files.magerun.net/n98-magerun2.phar \
   && chmod +x /usr/local/bin/magerun
+
+RUN mkdir -p -m 0600 ~/.ssh && ssh-keyscan gitlab >> ~/.ssh/known_hosts
 
 USER app:app
 

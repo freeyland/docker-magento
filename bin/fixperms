@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 echo "Correcting filesystem permissions..."
 
 bin/clinotty find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;

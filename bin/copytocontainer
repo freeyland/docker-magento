@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 uname=$(uname)
 if [ "$uname" = "Linux" ]; then
     cd "$(dirname "$(readlink -f "$0")")"
@@ -16,7 +17,8 @@ if [ "$1" == "--all" ]; then
   echo "Completed copying all files from host to container"
 else
   docker cp src/$1 $(docker-compose -p $PROJECT ps -q phpfpm|awk '{print $1}'):/var/www/html/
-  echo "Completed copying $1 from host to container"
+  echo "Completed copying $1 from host to container:"
+  cli ls -alhR /var/www/html/$1
 fi
 
 bin/fixowns

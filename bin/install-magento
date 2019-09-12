@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 DOMAIN=${1:-magento2.test}
 MYSQL_ROOT_PASSWORD=${2:-magento}
 

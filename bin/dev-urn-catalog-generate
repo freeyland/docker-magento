@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 bin/magento dev:urn-catalog:generate misc.xml
 bin/copyfromcontainer misc.xml
 

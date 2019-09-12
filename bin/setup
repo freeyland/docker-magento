@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 clear
 
 DOMAIN=${1:-magento2.test}
