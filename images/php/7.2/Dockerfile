@@ -14,7 +14,9 @@ RUN apt-get update && apt-get install -y \
   lsof \
   mysql-client \
   vim \
-  zip
+  zip \
+  librabbitmq-dev \
+  libssh-dev
 
 RUN docker-php-ext-configure \
   gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
@@ -28,7 +30,9 @@ RUN docker-php-ext-install \
   pdo_mysql \
   soap \
   xsl \
-  zip
+  zip \
+  bcmath \
+  sockets
 
 RUN echo "deb http://deb.debian.org/debian stretch-backports main" >> /etc/apt/sources.list 
 
@@ -41,7 +45,6 @@ RUN pecl channel-update pecl.php.net \
   && pecl install xdebug \
   && docker-php-ext-enable xdebug \
   && sed -i -e 's/^zend_extension/\;zend_extension/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
 
 
 RUN apt-get install -y libssh2-1-dev \
